@@ -16,10 +16,10 @@ interface ItemNav {
 export class App {
   private readonly supabase = inject(SupabaseService);
 
-  protected readonly titulo = 'Metrica';
+  readonly titulo = 'Metrica';
   protected readonly tagline = 'Painel administrativo corporativo — KPIs, roles e lazy loading';
   protected readonly semana = 4;
-  protected readonly nav: ItemNav[] = [
+  readonly nav: ItemNav[] = [
     { path: '/login', rotulo: 'Login' },
     { path: '/overview', rotulo: 'Overview' },
     { path: '/clientes', rotulo: 'Clientes' },

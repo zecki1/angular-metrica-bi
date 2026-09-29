@@ -9,7 +9,7 @@ import { SupabaseService } from '../../core/supabase';
 export class OverviewPage {
   private readonly supabase = inject(SupabaseService);
 
-  protected readonly titulo = 'Overview';
+  readonly titulo = 'Overview';
   protected readonly descricao = 'KPIs com delta vs. periodo e charts.';
   protected readonly slugProjeto = 'metrica';
 

@@ -9,7 +9,7 @@ import { SupabaseService } from '../../core/supabase';
 export class ClientesPage {
   private readonly supabase = inject(SupabaseService);
 
-  protected readonly titulo = 'Clientes';
+  readonly titulo = 'Clientes';
   protected readonly descricao = 'Tabela com filtros, ordenação, páginação e lazy loading.';
   protected readonly slugProjeto = 'metrica';
 

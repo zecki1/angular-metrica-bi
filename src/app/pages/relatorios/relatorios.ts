@@ -9,7 +9,7 @@ import { SupabaseService } from '../../core/supabase';
 export class RelatoriosPage {
   private readonly supabase = inject(SupabaseService);
 
-  protected readonly titulo = 'Relatorios';
+  readonly titulo = 'Relatorios';
   protected readonly descricao = 'Geração de relatório por periodo.';
   protected readonly slugProjeto = 'metrica';
 
