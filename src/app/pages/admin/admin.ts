@@ -9,7 +9,7 @@ import { SupabaseService } from '../../core/supabase';
 export class AdminPage {
   private readonly supabase = inject(SupabaseService);
 
-  protected readonly titulo = 'Admin';
+  readonly titulo = 'Admin';
   protected readonly descricao = 'Gestão de `profiles`/roles — apenas `admin`.';
   protected readonly slugProjeto = 'metrica';
 
