@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "metrica-bi:build:production"
+              "buildTarget": "angular-metrica-bi:build:production"
             },
             "development": {
-              "buildTarget": "metrica-bi:build:development"
+              "buildTarget": "angular-metrica-bi:build:development"
             }
           },
           "defaultConfiguration": "development"
