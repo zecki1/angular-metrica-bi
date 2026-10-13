@@ -59,6 +59,8 @@ h1 {
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.85em;
+  /* Contraste do <code> sobre o fundo azulado: --tenue dava 3,7:1 (axe). */
+  color: var(--texto);
   background: color-mix(in srgb, var(--acento) 16%, transparent);
   padding: 0.1em 0.35em;
   border-radius: 0.3rem;

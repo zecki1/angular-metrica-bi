@@ -43,6 +43,10 @@ jobs:
         run: npm run build
       - name: Testes unitários (cobertura)
         run: npm run test:ci --if-present
+      # Sem este passo o Playwright falha todo dia com
+      # "Executable doesn't exist at .../ms-playwright/...".
+      - name: Instalar browser do Playwright
+        run: npx playwright install --with-deps chromium
       - name: Testes E2E (Playwright)
         run: npm run e2e:ci --if-present
       - name: Salvar evidências
