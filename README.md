@@ -10,8 +10,8 @@ entregar painel administrativo corporativo: KPIs, roles/permissões, lazy loadin
 ## Stack
 
 - **Angular 22** — standalone, signals, zoneless, OnPush por padrão
-- **Supabase** — Postgres + Auth + RLS (projeto compartilhado `angular-portfolio`)
-- **Tailwind CSS** · **ECharts** (dashboards) · **GSAP** (motion) · **three.js** (3D)
+- **Supabase** — Postgres + Auth + RLS (projeto compartilhado `angular-portfolio`), cliente carregado sob demanda (lazy)
+- **Tailwind CSS 4**
 - **Vercel** — build estático (sem cold start, sempre online)
 
 ## Fluxo de trabalho (Git)

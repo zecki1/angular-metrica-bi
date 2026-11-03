@@ -1,44 +1,58 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 import { config, temSupabase } from './config';
 
 const CHAVE_CLIENTE = 'zecki1-supabase';
 
 /**
- * Cliente unico do projeto Supabase compartilhado (jlvqrfewiuqhduvbufqe).
+ * Cliente Supabase carregado sob demanda.
  *
- * A sessao fica em localStorage para sobreviver a F5, e o RLS e quem protege
- * os dados — a anon key pode ir no bundle, a service_role key nunca.
+ * O SDK (`@supabase/supabase-js`) é pesado (~870 kB). Em modo demo — o
+ * padrão quando não há `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY` — o app
+ * funciona só com o seed local e não precisa do backend, então o `import()`
+ * dinâmico garante que o SDK nunca entre no bundle inicial.
  */
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
   private readonly _pronto = signal(false);
   private readonly _erro = signal<string | null>(null);
-  readonly cliente: SupabaseClient | null;
 
   readonly pronto = this._pronto.asReadonly();
   readonly erro = this._erro.asReadonly();
   readonly modoDemo = computed(() => !temSupabase());
+
+  private cached: Promise<SupabaseClient | null> | null = null;
 
   constructor() {
     if (!temSupabase()) {
       this._erro.set(
         'Supabase nao configurado: defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY no .env. O app segue em modo demo.',
       );
-      this.cliente = null;
       return;
     }
+  }
 
-    this.cliente = createClient(config.supabaseUrl, config.supabaseAnonKey, {
-      auth: { storageKey: CHAVE_CLIENTE, persistSession: true, autoRefreshToken: true },
-    });
-    this._pronto.set(true);
+  /** Cliente (lazy). Retorna `null` em modo demo. */
+  getCliente(): Promise<SupabaseClient | null> {
+    if (!temSupabase()) return Promise.resolve(null);
+    if (!this.cached) {
+      this.cached = import('@supabase/supabase-js').then(({ createClient }) => {
+        const client = createClient(config.supabaseUrl, config.supabaseAnonKey, {
+          auth: { storageKey: CHAVE_CLIENTE, persistSession: true, autoRefreshToken: true },
+        });
+        this._pronto.set(true);
+        return client;
+      });
+    }
+    return this.cached;
   }
 
   /** True quando o projeto respondeu o ping de auth — usado no health-check. */
   async verificarConexão(): Promise<boolean> {
-    if (!this.cliente) return false;
-    const { error } = await this.cliente.auth.getSession();
+    const cliente = await this.getCliente();
+    if (!cliente) return false;
+    const { error } = await cliente.auth.getSession();
     return !error;
   }
 }

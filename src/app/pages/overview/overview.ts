@@ -1,7 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { SupabaseService } from '../../core/supabase';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-overview',
   templateUrl: './overview.html',
   styleUrl: './overview.css',
